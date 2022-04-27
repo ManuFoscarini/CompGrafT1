@@ -11,7 +11,7 @@ class MainWidget(QWidget):
         super().__init__()
         menu = Menu()
 
-        rightWidget = ViewPort()
+        viewPort = ViewPort()
 
         objectsList = ObjectsList()
 
@@ -20,5 +20,5 @@ class MainWidget(QWidget):
 
         grid.addWidget(menu, 0, 0)
         grid.addWidget(objectsList, 1, 0)
-        grid.addWidget(rightWidget, 0, 1)
+        grid.addWidget(viewPort, 0, 1)
         self.setLayout(grid)

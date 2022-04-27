@@ -1,11 +1,8 @@
-import sys
-from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget, QPushButton, QLineEdit, QVBoxLayout, QLabel
 from object.objects import Objects
 from object.point import Point
 from object.wireframe import Wireframe
 from object.line import Line
-from widget.objectsList import ObjectsList
 
 class CoordinatesWidgetPonto(QWidget):
     def __init__(self):
@@ -23,12 +20,12 @@ class CoordinatesWidgetPonto(QWidget):
         layout.addWidget(self.coordenadaY)
 
         self.Confirma = QPushButton('Ok')
-        self.Confirma.setStyleSheet('font-size: 15px')
+        self.Confirma.setStyleSheet('font-size: 12px')
         layout.addWidget(self.Confirma)
         self.Confirma.clicked.connect(self.printXeY)
 
         self.Limpar = QPushButton('Limpar')
-        self.Limpar.setStyleSheet('font-size: 15px')
+        self.Limpar.setStyleSheet('font-size: 12px')
         layout.addWidget(self.Limpar)
         self.Limpar.clicked.connect(self.clearLabels)
         self.setLayout(layout)
@@ -58,13 +55,13 @@ class CoordinatesWidgetWireframe(QWidget):
         self.layout.addWidget(self.coordenadaXY)
 
         self.Confirma = QPushButton('Ok')
-        self.Confirma.setStyleSheet('font-size: 15px')
+        self.Confirma.setStyleSheet('font-size: 12px')
         self.layout.addWidget(self.Confirma)
         self.Confirma.clicked.connect(self.printXeY)
         self.setLayout(self.layout)
 
         self.limpar = QPushButton('Limpar')
-        self.limpar.setStyleSheet('font-size: 15px')
+        self.limpar.setStyleSheet('font-size: 12px')
         self.layout.addWidget(self.limpar)
         self.limpar.clicked.connect(self.clearLabels)
         self.setLayout(self.layout)
@@ -105,13 +102,13 @@ class CoordinatesWidgetLinha(QWidget):
         layout.addWidget(self.coordenadaY2)
 
         self.Confirma = QPushButton('Ok')
-        self.Confirma.setStyleSheet('font-size: 15px')
+        self.Confirma.setStyleSheet('font-size: 12px')
         layout.addWidget(self.Confirma)
         self.Confirma.clicked.connect(self.printXeY)
         self.setLayout(layout)
 
         self.limpar = QPushButton('Limpar')
-        self.limpar.setStyleSheet('font-size: 15px')
+        self.limpar.setStyleSheet('font-size: 12px')
         layout.addWidget(self.limpar)
         self.limpar.clicked.connect(self.clearLabels)
         self.setLayout(layout)

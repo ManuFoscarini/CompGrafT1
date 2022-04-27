@@ -4,6 +4,7 @@ from windows.mainWindow import MainWindow
 
 
 class Main():
+    
     def __init__(self):
         app = QApplication(sys.argv)
         mainWindow = MainWindow()
