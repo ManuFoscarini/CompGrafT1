@@ -54,7 +54,7 @@ class CoordinatesWidgetWireframe(QWidget):
 
         self.coordenadaXY = QLineEdit()
 
-        self.layout.addWidget(QLabel('Todas as coordenada X e Y: [x1,y1] [x2,y2]'))
+        self.layout.addWidget(QLabel('Todas as coordenada X e Y: x1,y1;x2,y2'))
         self.layout.addWidget(self.coordenadaXY)
 
         self.Confirma = QPushButton('Ok')
@@ -71,10 +71,11 @@ class CoordinatesWidgetWireframe(QWidget):
 
     def printXeY(self):
         newpontos = []
-        coordenadasXY = self.coordenadaXY.displayText().split(' ')
+        coordenadasXY = self.coordenadaXY.displayText().strip().split(';')
         for stringPonto in coordenadasXY:
-            pontoArray = stringPonto.replace('[', '').replace(']', '').split(',')
-            newpontos.append(Point(int(pontoArray[0]), int(pontoArray[1])))
+            if(stringPonto != ''):
+                x, y = stringPonto.split(',')
+                newpontos.append(Point(int(x), int(y)))
         Objects.addObject(Wireframe(newpontos))
         self.close()
         self.clearLabels()
