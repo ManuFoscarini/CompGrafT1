@@ -10,16 +10,16 @@ class Menu(QWidget):
         self.coordinatesWidgetLinha = None 
         self.coordinatesWidgetPonto = None 
         self.coordinatesWidgetPoligono = None  
-        self.btn_up = QPushButton("⇑", self)
+        self.btn_up = QPushButton("↑", self)
         self.btn_up.clicked.connect(Window.moveUp)
         self.btn_up.setGeometry(43, 30, 86, 25)
-        self.btn_left = QPushButton("⇐", self)
+        self.btn_left = QPushButton("←", self)
         self.btn_left.clicked.connect(Window.moveLeft)
         self.btn_left.setGeometry(0, 55, 86, 25)
-        self.btn_right = QPushButton("⇒", self)
+        self.btn_right = QPushButton("→", self)
         self.btn_right.clicked.connect(Window.moveRight)
         self.btn_right.setGeometry(86, 55, 86, 25)
-        self.btn_down = QPushButton("⇓", self)
+        self.btn_down = QPushButton("↓", self)
         self.btn_down.clicked.connect(Window.moveDown)
         self.btn_down.setGeometry(43, 80, 86, 25)
         self.btn_inpoint = QPushButton("Point", self)

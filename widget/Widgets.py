@@ -14,9 +14,9 @@ class CoordinatesWidgetPonto(QWidget):
         self.coordenadaX = QLineEdit()
         self.coordenadaY = QLineEdit()
 
-        layout.addWidget(QLabel('Coordenada X:'))
+        layout.addWidget(QLabel('X:'))
         layout.addWidget(self.coordenadaX)
-        layout.addWidget(QLabel('Coordenada Y:'))
+        layout.addWidget(QLabel('Y:'))
         layout.addWidget(self.coordenadaY)
 
         self.Confirma = QPushButton('Ok')
@@ -92,13 +92,13 @@ class CoordinatesWidgetLinha(QWidget):
         self.coordenadaX2 = QLineEdit()
         self.coordenadaY2 = QLineEdit()
 
-        layout.addWidget(QLabel('Coordenada X1:'))
+        layout.addWidget(QLabel('X1:'))
         layout.addWidget(self.coordenadaX1)
-        layout.addWidget(QLabel('Coordenada Y1:'))
+        layout.addWidget(QLabel('Y1:'))
         layout.addWidget(self.coordenadaY1)
-        layout.addWidget(QLabel('Coordenada X2:'))
+        layout.addWidget(QLabel('X2:'))
         layout.addWidget(self.coordenadaX2)
-        layout.addWidget(QLabel('Coordenada Y2:'))
+        layout.addWidget(QLabel('Y2:'))
         layout.addWidget(self.coordenadaY2)
 
         self.Confirma = QPushButton('Ok')

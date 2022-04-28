@@ -4,37 +4,30 @@ class Window():
     ymin = 0
     ymax = 450
 
-    @staticmethod
     def moveLeft():
-        Window.xmin -= 5
-        Window.xmax -= 5
+        Window.xmin -= 10
+        Window.xmax -= 10
 
-    @staticmethod
     def moveRight():
-        Window.xmin += 5
-        Window.xmax += 5
+        Window.xmin += 10
+        Window.xmax += 10
 
-    @staticmethod
     def moveDown():
-        Window.ymin -= 5
-        Window.ymax -= 5
+        Window.ymin -= 10
+        Window.ymax -= 10
 
-    @staticmethod
     def moveUp():
-        Window.ymin += 5
-        Window.ymax += 5
+        Window.ymin += 10
+        Window.ymax += 10
 
-    @staticmethod
     def zoomIn():
-        if ((Window.ymax > (Window.ymin + 50)) and (Window.xmax > (Window.xmin + 50))):
-            Window.ymin += 5
-            Window.ymax -= 5
-            Window.xmin += 5
-            Window.xmax -= 5
-
-    @staticmethod
+        if ((Window.ymax > (Window.ymin + 100)) and (Window.xmax > (Window.xmin + 50))):
+            Window.ymin += 10
+            Window.ymax -= 10
+            Window.xmin += 10
+            Window.xmax -= 10
     def zoomOut():
-        Window.ymin -= 5
-        Window.ymax += 5
-        Window.xmin -= 5
-        Window.xmax += 5
+        Window.ymin -= 10
+        Window.ymax += 10
+        Window.xmin -= 10
+        Window.xmax += 10

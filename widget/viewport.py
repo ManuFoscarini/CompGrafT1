@@ -13,12 +13,12 @@ class ViewPort(QWidget):
         self.setAutoFillBackground(True)
 
         palette = self.palette()
-        palette.setColor(QPalette.Window, QColor('white'))
+        palette.setColor(QPalette.Window, QColor('light gray'))
         self.setPalette(palette)
 
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.update)
-        self.timer.start(1000 / 60)
+        self.timer.start(1000/40)
 
     def paintEvent(self, event):
         painter = QPainter(self)
