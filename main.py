@@ -13,3 +13,6 @@ class Main():
         sys.exit(app.exec_())
 
 Main()
+
+
+#TODO: fazer as linhas de coordenadas x e y fixar no canvas (não mover com a window)

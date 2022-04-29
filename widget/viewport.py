@@ -26,13 +26,16 @@ class ViewPort(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        pen = QPen(Qt.red, 5, Qt.SolidLine)
+        pen = QPen(Qt.red, 4, Qt.SolidLine)
         painter.setPen(pen)
         painter.drawLine(0, 0, 0, 800)
 
-        pen = QPen(Qt.green, 5, Qt.SolidLine)
+        pen = QPen(Qt.green, 4, Qt.SolidLine)
         painter.setPen(pen)
         painter.drawLine(0, 450, 800, 450)
+
+        pen = QPen(Qt.black, 2, Qt.SolidLine)
+        painter.setPen(pen)
 
         for object in Objects.listObjects:
             object.draw(painter)
