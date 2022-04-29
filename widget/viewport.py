@@ -1,8 +1,11 @@
+from turtle import color
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter, QPalette, QColor
 from PyQt5 import QtCore
 from object.objects import Objects
 from windows.configs import Configs
+from PyQt5.QtGui import QPainter, QPen
+from PyQt5.QtCore import Qt
 
 
 class ViewPort(QWidget):
@@ -22,5 +25,14 @@ class ViewPort(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
+
+        pen = QPen(Qt.red, 5, Qt.SolidLine)
+        painter.setPen(pen)
+        painter.drawLine(0, 0, 0, 800)
+
+        pen = QPen(Qt.green, 5, Qt.SolidLine)
+        painter.setPen(pen)
+        painter.drawLine(0, 450, 800, 450)
+
         for object in Objects.listObjects:
             object.draw(painter)
