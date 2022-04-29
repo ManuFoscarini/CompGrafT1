@@ -13,7 +13,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon('windows\logo.png'))    
         self.setWindowTitle("Computação Gráfica")
         self.setGeometry(200, 200, 1000, 470)
-        appIcon = QIcon("C:/Users/emanu/Documents/GitHub/CompGrafT1/windows/logo.png")
+        appIcon = QIcon("windows/logo.png")
         self.setWindowIcon(QIcon(appIcon))
         self.setFixedSize(1000, 470)
 
