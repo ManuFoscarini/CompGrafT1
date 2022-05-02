@@ -2,9 +2,9 @@ class Objects:
     listObjects = []
 
     @staticmethod
-    def clearObjects(object):
+    def clear_cache():
         Objects.listObjects = []
 
     @staticmethod
-    def addObject(object):
-        Objects.listObjects.append(object)
+    def add(element):
+        Objects.listObjects.append(element)

@@ -2,23 +2,23 @@ from PyQt5.QtWidgets import QMainWindow
 from widget.mainWidget import MainWidget
 from PyQt5.QtGui import QIcon
 
+
 class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
 
-        self.initUI()
+        self.init_ui()
 
-    def initUI(self):   
-        self.setWindowIcon(QIcon('windows\logo.png'))    
+    def init_ui(self):
+        self.setWindowIcon(QIcon('windows\logo.png'))
         self.setWindowTitle("Computação Gráfica")
         self.setGeometry(200, 200, 1000, 470)
-        appIcon = QIcon("windows/logo.png")
-        self.setWindowIcon(QIcon(appIcon))
+        app_icon = QIcon("windows/logo.png")
+        self.setWindowIcon(QIcon(app_icon))
         self.setFixedSize(1000, 470)
 
-        mainWidget = MainWidget()
-        mainWidget.show()
+        main_widget = MainWidget()
+        main_widget.show()
 
-        self.setCentralWidget(mainWidget)
-        
+        self.setCentralWidget(main_widget)

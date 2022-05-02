@@ -1,5 +1,9 @@
-class Configs():
-    xmin = 0
-    xmax = 800
-    ymin = 0
-    ymax = 450
+from dataclasses import dataclass
+
+
+@dataclass
+class Configs:
+    x_min = 0
+    x_max = 800
+    y_min = 0
+    y_max = 450

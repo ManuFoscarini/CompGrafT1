@@ -10,15 +10,18 @@ class ObjectsList(QWidget):
     def __init__(self):
         super().__init__()
         vbox = QVBoxLayout(self)
+
         self.listWidget = QListWidget()
         self.timer = QtCore.QTimer(self)
-        self.timer.timeout.connect(self.renderObjectList)
+        self.timer.timeout.connect(self.render_objects)
         self.timer.start(1000)
+
         vbox.addWidget(QLabel('Objects:'))
         vbox.addWidget(self.listWidget)
 
-    def renderObjectList(self):
-        listaObjects = Objects.listObjects
+    def render_objects(self):
+        objects = Objects.listObjects
         self.listWidget.clear()
-        for object in listaObjects:
-            self.listWidget.addItem(object.label)
+
+        for o in objects:
+            self.listWidget.addItem(o.label)

@@ -1,36 +1,36 @@
-from object.transform import transform_point
+from object.transform import TransformPoint
 from object.point import Point
 
 
-class Wireframe(transform_point):
+class Wireframe(TransformPoint):
     def __init__(self, points):
         self.points = points
         self.label = "Wireframe Points: {}".format(
-            self.formatPointsLabel(points))
+            self.format_point_labels())
 
-    def formatPointsLabel(self, points):
-        pointsLabel = ""
-        for point in points:
-            pointsLabel += "({},{}) ".format(point.x, point.y)
-        return pointsLabel
+    def format_point_labels(self):
+        point_labels = ""
+        for point in self.points:
+            point_labels += "({},{}) ".format(point.x, point.y)
+        return point_labels
 
     def draw(self, painter):
-        transformedPoints = []
+        transformed_points = list()
         for point in self.points:
-            coordinateTransformed = self.transformViewport(point)
-            pointTransformed = Point(
-                coordinateTransformed[0], coordinateTransformed[1])
-            transformedPoints.append(pointTransformed)
+            coordinate_transformed = self.viewport_transformation(point)
+            point_transformed = Point(
+                coordinate_transformed[0], coordinate_transformed[1])
+            transformed_points.append(point_transformed)
 
-        if (len(transformedPoints) == 1):
-            painter.drawPoint(transformedPoints[0])
-        elif (len(transformedPoints) == 2):
-            painter.drawLine(transformedPoints[0], transformedPoints[1])
+        if len(transformed_points) == 1:
+            painter.drawPoint(transformed_points[0])
+        elif len(transformed_points) == 2:
+            painter.drawLine(transformed_points[0], transformed_points[1])
         else:
-            for position in range(0, len(transformedPoints)):
-                if(position < (len(transformedPoints) - 1)):
+            for position in range(0, len(transformed_points)):
+                if position < (len(transformed_points) - 1):
                     painter.drawLine(
-                        transformedPoints[position], transformedPoints[position+1])
+                        transformed_points[position], transformed_points[position+1])
                 else:
                     painter.drawLine(
-                          transformedPoints[position], transformedPoints[0])
+                          transformed_points[position], transformed_points[0])
