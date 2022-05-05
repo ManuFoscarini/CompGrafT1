@@ -16,6 +16,3 @@ class Main:
 
 if __name__ == '__main__':
     Main()
-
-
-# TODO: fazer as linhas de coordenadas x e y fixar no canvas (não mover com a window)
