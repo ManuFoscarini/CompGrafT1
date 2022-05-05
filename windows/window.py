@@ -11,15 +11,15 @@ class Window:
     def move_left():
         Window.x_min -= 10
         Window.x_max -= 10
-        vp.YAxis.x1 -= 10
-        vp.YAxis.x2 -= 10
+        vp.YAxis.x1 += 10
+        vp.YAxis.x2 += 10
 
     @staticmethod
     def move_right():
         Window.x_min += 10
         Window.x_max += 10
-        vp.YAxis.x1 += 10
-        vp.YAxis.x2 += 10
+        vp.YAxis.x1 -= 10
+        vp.YAxis.x2 -= 10
 
     @staticmethod
     def move_down():

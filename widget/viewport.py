@@ -50,7 +50,7 @@ class ViewPort(QWidget):
 
 
 def red_pen_for(painter):
-    pen = QPen(Qt.red, 4, Qt.SolidLine)
+    pen = QPen(Qt.red, 3, Qt.SolidLine)
     painter.setPen(pen)
     painter.drawLine(
         ViewPort.YAxis.x1,
@@ -60,7 +60,7 @@ def red_pen_for(painter):
 
 
 def green_pen_for(painter):
-    pen = QPen(Qt.green, 4, Qt.SolidLine)
+    pen = QPen(Qt.green, 3, Qt.SolidLine)
     painter.setPen(pen)
     painter.drawLine(
         ViewPort.XAxis.x1,
