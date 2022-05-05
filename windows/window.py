@@ -42,6 +42,10 @@ class Window:
             Window.y_max -= 10
             Window.x_min += 10
             Window.x_max -= 10
+            vp.XAxis.y1 += 10
+            vp.XAxis.y2 += 10
+            vp.YAxis.x1 += 10
+            vp.YAxis.x2 += 10
 
     @staticmethod
     def zoom_out():
@@ -49,3 +53,7 @@ class Window:
         Window.y_max += 10
         Window.x_min -= 10
         Window.x_max += 10
+        vp.XAxis.y1 -= 10
+        vp.XAxis.y2 -= 10
+        vp.YAxis.x1 -= 10
+        vp.YAxis.x2 -= 10
