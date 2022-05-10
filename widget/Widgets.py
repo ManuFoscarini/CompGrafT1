@@ -117,6 +117,9 @@ class CoordinatesWidgetLinha(QWidget):
         self.setLayout(layout)
 
     def print_x_and_y(self):
+        if (self.coordenadaX1.displayText() == "" or self.coordenadaY1.displayText() == "" or
+                self.coordenadaX2.displayText() == "" or self.coordenadaY2.displayText() == ""):
+            return
         x1 = int(self.coordenadaX1.displayText())
         y1 = int(self.coordenadaY1.displayText())
         ponto1 = Point(x1, y1)

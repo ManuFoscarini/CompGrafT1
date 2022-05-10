@@ -1,7 +1,3 @@
-from dataclasses import dataclass
-
-
-@dataclass
 class Configs:
     x_min = 0
     x_max = 800

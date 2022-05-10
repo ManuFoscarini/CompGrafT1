@@ -14,3 +14,24 @@ class Point(QPoint, TransformPoint):
         """Retorna uma tupla com (x, y)."""
         point_transformed = self.viewport_transformation(self)
         painter.drawPoint(point_transformed[0], point_transformed[1])
+
+    def rotate(self, Point, angle):
+        coordinates = self.rotate_object([self], Point, angle)[0]
+        x, y, _ = coordinates
+        self.x = x
+        self.y = y
+
+    def translation(self, Point):
+        coordinates = self.translation_object([self], Point)[0]
+        x, y, _ = coordinates
+        self.x = x
+        self.y = y
+
+    def scale(self, scaleX, scaleY):
+        coordinates = self.scale_object([self], scaleX, scaleY)[0]
+        x, y, _ = coordinates
+        self.x = x
+        self.y = y
+
+    def getCenter(self):
+        return self
