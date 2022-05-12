@@ -18,3 +18,6 @@ if __name__ == '__main__':
     Main()
 
 
+#TODO: Não consegui implementar a troca de cor. 
+
+
