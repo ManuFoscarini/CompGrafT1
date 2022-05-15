@@ -1,47 +1,36 @@
-from windows.configs import Configs
-from windows.window import Window
 import numpy
 
 
-class TransformPoint:
+class Object2D:
 
-    def viewport_transformation(self, points):
-        listOfPoints = []
-        for point in points:
-            xvp = ((point.x - Window.x_min) / (Window.x_max - Window.x_min)) * (Configs.x_max - Configs.x_min)
-            yvp = (1 - ( (point.y - Window.y_min) / (Window.y_max - Window.y_min) ) ) * (Configs.y_max - Configs.y_min)
-            listOfPoints.append([xvp, yvp])
-        return listOfPoints
-
-    def rotate_object(self, points, Point, angle):
-        rotate = []
-        rotateAngle = self.getAngleInRadianus(angle)
+    def rotateObject(self, points, anchorPoint, angle):
+        objectRotate = []
         for point in points:
             pointMatrix = [point.x, point.y, 1]
-            toCenter = [[1, 0, 0], [0, 1, 0], [-Point.x, -Point.y, 1]]
-            rotatePoint = numpy.dot(pointMatrix, toCenter)
-            rotateMatrix = [[numpy.cos(rotateAngle), -numpy.sin(rotateAngle), 0], [numpy.sin(rotateAngle), numpy.cos(rotateAngle), 0], [0, 0, 1]]
+            translateMatrixToCenter = [[1, 0, 0], [0, 1, 0], [-anchorPoint.x, -anchorPoint.y, 1]]
+            rotatePoint = numpy.dot(pointMatrix, translateMatrixToCenter)
+            rotateMatrix = [[numpy.cos(angle), -numpy.sin(angle), 0], [numpy.sin(angle), numpy.cos(angle), 0], [0, 0, 1]]
             rotatePoint = numpy.dot(rotatePoint, rotateMatrix)
-            translateMatrixBack = [[1, 0, 0], [0, 1, 0], [Point.x, Point.y, 1]]
+            translateMatrixBack = [[1, 0, 0], [0, 1, 0], [anchorPoint.x, anchorPoint.y, 1]]
             rotatePoint = numpy.dot(rotatePoint, translateMatrixBack)
-            rotate.append(rotatePoint)
-        return rotate
+            objectRotate.append(rotatePoint)
+        return objectRotate
 
-    def scale_object(self, points, scaleX, scaleY):
-        scale = []
+    def scaleObject(self, points, scaleX, scaleY):
+        objectScale = []
         cx, cy = self.getCenterObject(points)
         for point in points:
             pointMatrix = [point.x, point.y, 1]
-            toCenter = [[1, 0, 0], [0, 1, 0], [-cx, -cy, 1]]
-            scalePoint = numpy.dot(pointMatrix, toCenter)
+            translateMatrixToCenter = [[1, 0, 0], [0, 1, 0], [-cx, -cy, 1]]
+            scalePoint = numpy.dot(pointMatrix, translateMatrixToCenter)
             scaleMatrix = [[scaleX, 0, 0], [0, scaleY, 0], [0, 0, 1]]
             scalePoint = numpy.dot(scalePoint, scaleMatrix)
             translateMatrixBack = [[1, 0, 0], [0, 1, 0], [cx, cy, 1]]
             scalePoint = numpy.dot(scalePoint, translateMatrixBack)
-            scale.append(scalePoint)
-        return scale
+            objectScale.append(scalePoint)
+        return objectScale
 
-    def translation_object(self, points, destinationPoint):
+    def translationObject(self, points, destinationPoint):
         objectTranslation = []
         for point in points:
             pointMatrix = [point.x, point.y, 1]
@@ -61,3 +50,33 @@ class TransformPoint:
 
     def getAngleInRadianus(self, angle):
         return angle * numpy.pi/180
+
+    def normalizedObjects(self, points, centerPoint, angle, factor):
+        wcx, wcy = centerPoint
+        factorx, factory = factor
+        objectNormalized = []
+        for point in points:
+
+            pointMatrix = [point.x, point.y, 1]
+
+            operation_matrix = numpy.array([
+                [1, 0, 0],
+                [0, 1, 0],
+                [-wcx, -wcy, 1],
+            ])
+
+            operation_matrix = operation_matrix.dot([
+                [numpy.cos(angle), -numpy.sin(angle), 0],
+                [numpy.sin(angle), numpy.cos(angle), 0],
+                [0, 0, 1]
+            ])
+
+            operation_matrix = operation_matrix.dot([
+                [factorx, 0, 0],
+                [0, factory, 0],
+                [0, 0, 1],
+            ])
+
+            pointNormalized = numpy.dot(pointMatrix, operation_matrix)
+            objectNormalized.append(pointNormalized)
+        return objectNormalized

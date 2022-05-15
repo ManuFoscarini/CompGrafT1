@@ -1,9 +1,9 @@
 import sys
-from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QVBoxLayout, QLabel, QWidget
+
+from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QWidget, QVBoxLayout, QLabel
 from PyQt5 import QtCore
-from object.objects import Objects
-from object.transform import *
-from widget.tranformation2D import Transformation2D
+from widget.transformation2D import Transformation
+from object.world import World
 
 
 class ObjectsList(QWidget):
@@ -16,24 +16,24 @@ class ObjectsList(QWidget):
         self.transformationWidget = None
 
         self.timer = QtCore.QTimer(self)
-        self.timer.timeout.connect(self.render_objects)
-        self.timer.start(1000)
+        self.timer.timeout.connect(self.renderObjectList)
+        self.timer.start(1000 / 60)
 
-        self.listWidget.itemDoubleClicked.connect(self.launch_transformation)
+        self.listWidget.itemDoubleClicked.connect(self.launchTransformationWidget)
         vbox.addWidget(QLabel('Objects:'))
         vbox.addWidget(self.listWidget)
 
-    def render_objects(self):
-        if(Objects.listObjects == self.objectListRendered):
+    def renderObjectList(self):
+        if(World.listObjects == self.objectListRendered):
             return
         self.listWidget.clear()
-        for o in Objects.listObjects:
-            listWidgetItem = QListWidgetItem(o.label)
+        for object in World.listObjects:
+            listWidgetItem = QListWidgetItem(object.label)
             self.listWidget.addItem(listWidgetItem)
-        self.objectListRendered = Objects.listObjects.copy()
+        self.objectListRendered = World.listObjects.copy()
 
-    def launch_transformation(self, item):
-        Objects.select_object(item.text())
+    def launchTransformationWidget(self, item):
+        World.selectObject(item.text())
         if (self.transformationWidget is None):
-            self.transformationWidget = Transformation2D()
+            self.transformationWidget = Transformation()
         self.transformationWidget.show()

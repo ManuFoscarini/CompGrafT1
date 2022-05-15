@@ -1,22 +1,21 @@
+import numpy
 from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QGridLayout, QLineEdit, QLabel
-from object.objects import Objects
+from object.world import World
 from object.point import Point
 
 
-class Transformation2D(QWidget):
+class Transformation(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Transformações")
         self.setGeometry(1225, 300, 400, 300)
         layout = QGridLayout()
 
-        # ROTAÇÃO
-
         self.coordenadaX = QLineEdit()
-        self.labelCoordX = QLabel('Coordenada de X:')
+        self.labelCoordX = QLabel('Âncora X:')
 
         self.coordenadaY = QLineEdit()
-        self.labelCoordY = QLabel('Coordenada de Y:')
+        self.labelCoordY = QLabel('Âncora Y:')
 
         self.angle = QLineEdit()
         self.angleLabel = QLabel('Ângulo:')
@@ -37,7 +36,7 @@ class Transformation2D(QWidget):
         self.ClearLabels.setStyleSheet('font-size: 15px')
         self.ClearLabels.clicked.connect(self.clearLabelsRotation)
 
-        # TRANSLAÇÃO
+        # Translação
 
         self.pointX = QLineEdit()
         self.labelPointX = QLabel('Translação X:')
@@ -53,7 +52,7 @@ class Transformation2D(QWidget):
         self.ClearLabelsTranslation.setStyleSheet('font-size: 15px')
         self.ClearLabelsTranslation.clicked.connect(self.clearLabelsTranslation)
 
-        # ESCALONAMENTO NATURAL
+        # Escalonamento Natural
 
         self.scaleX = QLineEdit()
         self.labelScaleX = QLabel('Escala em X:')
@@ -69,7 +68,6 @@ class Transformation2D(QWidget):
         self.ClearLablesScale.setStyleSheet('font-size: 15px')
         self.ClearLablesScale.clicked.connect(self.clearLabelsScale)
 
-
         layout.addWidget(self.labelCoordX, 0, 0)
         layout.addWidget(self.coordenadaX, 1, 0)
         layout.addWidget(self.labelCoordY, 2, 0)
@@ -81,14 +79,12 @@ class Transformation2D(QWidget):
         layout.addWidget(self.RotateOrigin, 8, 0)
         layout.addWidget(self.ClearLabels, 9, 0)
 
-
         layout.addWidget(self.labelPointX, 0, 1)
         layout.addWidget(self.pointX, 1, 1)
         layout.addWidget(self.labelPointY, 2, 1)
         layout.addWidget(self.pointY, 3, 1)
         layout.addWidget(self.Translation, 4, 1)
         layout.addWidget(self.ClearLabelsTranslation, 5, 1)
-
 
         layout.addWidget(self.labelScaleX, 0, 2)
         layout.addWidget(self.scaleX, 1, 2)
@@ -99,47 +95,47 @@ class Transformation2D(QWidget):
         self.setLayout(layout)
 
     def rotateAroundPoint(self):
-        if (Objects.selectedObject is not None):
+        if (World.selectedObject is not None):
             if (self.coordenadaX.displayText() == "" or self.coordenadaY.displayText() == "" or self.angle.displayText() == ""):
                 return
             x = int(self.coordenadaX.displayText())
             y = int(self.coordenadaY.displayText())
             receivedAngle = int(self.angle.displayText())
             anchorPoint = Point(x, y)
-            Objects.selectedObject.rotate(anchorPoint, receivedAngle)
+            World.selectedObject.rotate(anchorPoint, numpy.radians(receivedAngle))
 
     def rotateAroundCenter(self):
-        if (Objects.selectedObject is not None):
+        if (World.selectedObject is not None):
             if (self.angle.displayText() == ""):
                 return
-            receivedAngle = int(self.angle.displayText())
-            center = Objects.selectedObject.getCenter()
-            Objects.selectedObject.rotate(center, receivedAngle)
+            receivedAngle = numpy.int(self.angle.displayText())
+            center = World.selectedObject.getCenter()
+            World.selectedObject.rotate(center, numpy.radians(receivedAngle))
 
     def rotateAroundOrigin(self):
-        if (Objects.selectedObject is not None):
+        if (World.selectedObject is not None):
             if (self.angle.displayText() == ""):
                 return
             receivedAngle = int(self.angle.displayText())
             origin = Point(0, 0)
-            Objects.selectedObject.rotate(origin, receivedAngle)
+            World.selectedObject.rotate(origin, numpy.radians(receivedAngle))
 
     def translationAroundPoint(self):
-        if (Objects.selectedObject is not None):
+        if (World.selectedObject is not None):
             if (self.pointX.displayText() == "" or self.pointY.displayText() == ""):
                 return
             x = int(self.pointX.displayText())
             y = int(self.pointY.displayText())
             point = Point(x, y)
-            Objects.selectedObject.translation(point)
+            World.selectedObject.translation(point)
 
     def scaling(self):
-        if (Objects.selectedObject is not None):
+        if (World.selectedObject is not None):
             if (self.scaleX.displayText() == "" or self.scaleY.displayText() == ""):
                 return
             x = float(self.scaleX.displayText())
             y = float(self.scaleY.displayText())
-            Objects.selectedObject.scale(x, y)
+            World.selectedObject.scale(x, y)
 
     def clearLabelsRotation(self):
         self.coordenadaX.clear()
