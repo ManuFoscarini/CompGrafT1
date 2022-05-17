@@ -31,24 +31,27 @@ class Menu(QWidget):
         self.buttonZoomOut = QPushButton("-", self)
         self.buttonZoomOut.clicked.connect(self.zoomOut)
         self.buttonZoomOut.setGeometry(86, 125, 86, 25)
-        self.buttonRotateLeft = QPushButton("Rotate Window Left", self)
+        self.buttonRotateLeft = QPushButton("Rotacionar Esquerda", self)
         self.buttonRotateLeft.clicked.connect(self.rotateLeft)
         self.buttonRotateLeft.setGeometry(0, 165, 173, 25)
-        self.buttonRotateRight = QPushButton("Rotate Window Right", self)
+        self.buttonRotateRight = QPushButton("Rotacionar Direita", self)
         self.buttonRotateRight.clicked.connect(self.rotateRight)
         self.buttonRotateRight.setGeometry(0, 190, 173, 25)
-        self.buttonPoint = QPushButton("Point", self)
+        self.buttonPoint = QPushButton("Ponto", self)
         self.buttonPoint.clicked.connect(self.show_new_window_ponto)
         self.buttonPoint.setGeometry(0, 230, 173, 25)
-        self.buttonLine = QPushButton("Line", self)
+        self.buttonLine = QPushButton("Linha", self)
         self.buttonLine.clicked.connect(self.show_new_window_linha)
         self.buttonLine.setGeometry(0, 255, 173, 25)
         self.buttonPolygon = QPushButton("Wireframe", self)
         self.buttonPolygon.clicked.connect(self.show_new_window_poligono)
         self.buttonPolygon.setGeometry(0, 280, 173, 25)
-        self.buttonImport = QPushButton("Import", self)
-        self.buttonImport.clicked.connect(self.importObject)
+        self.buttonImport = QPushButton("Importar", self)
+        self.buttonImport.clicked.connect(self.LerOBJ)
         self.buttonImport.setGeometry(0, 315, 86, 25)
+        self.buttonExport = QPushButton("Exportar", self)
+        self.buttonExport.clicked.connect(self.DescritorOBJ)
+        self.buttonExport.setGeometry(86, 315, 86, 25)
 
     def show_new_window_ponto(self):
         if self.coordinatesWidgetPonto is None:
@@ -89,7 +92,7 @@ class Menu(QWidget):
     def zoomOut(self):
         Window.zoom(1.1)
 
-    def importObject(self):
+    def LerOBJ(self):
         (document, filter) = QFileDialog.getOpenFileName(self, 'Open file', './imports', "(*.obj)")
         nameObject = document.split('/')[-1].replace('.obj', '')
         if document == "":
@@ -109,4 +112,19 @@ class Menu(QWidget):
                     faces.append(face)
             points = World.facesToPoints(faces)
             World.addObject(Object(points, nameObject))
+
+    def DescritorOBJ(self):
+        if World.selectedObject is not None:
+            (document, filter) = QFileDialog.getSaveFileName(self, 'Save File', './imports', "(*.obj)")
+            file = open(document, 'w')
+            points = World.selectedObject.points
+            text = ''
+            faces = 'f'
+            for (position, point) in enumerate(points):
+                text += 'v ' + str(point.x) + ' ' + str(point.y) + ' 0\n'
+                faces += ' ' + str(position + 1)
+            text += faces + '\n'
+            file.write(text)
+            file.close()
+
 
