@@ -1,10 +1,11 @@
+from PyQt5.QtGui import QColor
 from object.transform import Object2D
 from object.point import Point
 from object.world import World
 
 
 class Object(Object2D):
-    def __init__(self, points, type, color):
+    def __init__(self, points, type, color = QColor(0, 0, 0)):
         self.points = points
         self.color = color
         self.type = type

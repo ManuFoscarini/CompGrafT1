@@ -1,21 +1,18 @@
-from PyQt5.QtWidgets import QPushButton, QWidget
+from PyQt5.QtWidgets import QPushButton, QWidget, QFileDialog
 from widget.WidgetPonto import CoordinatesWidgetPonto
 from widget.WidgetLinha import CoordinatesWidgetLinha
 from widget.WidgetWireframe import CoordinatesWidgetPoligono
-from widget.view import ViewPort as vp
 from object.window import Window
+from object.world import World
+from object.object import Object
 
 
 class Menu(QWidget):
-    """
-    This "window" is a QWidget. If it has no parent, it
-    will appear as a free-floating window as we want.
-    """
     def __init__(self):
         super().__init__()
-        self.coordinatesWidgetLinha = None  # No external window yet.
-        self.coordinatesWidgetPonto = None  # No external window yet.
-        self.coordinatesWidgetPoligono = None  # No external window yet.
+        self.coordinatesWidgetLinha = None
+        self.coordinatesWidgetPonto = None  
+        self.coordinatesWidgetPoligono = None  
         self.buttonUp = QPushButton("↑", self)
         self.buttonUp.clicked.connect(self.moveUp)
         self.buttonUp.setGeometry(43, 30, 86, 25)
@@ -49,6 +46,9 @@ class Menu(QWidget):
         self.buttonPolygon = QPushButton("Wireframe", self)
         self.buttonPolygon.clicked.connect(self.show_new_window_poligono)
         self.buttonPolygon.setGeometry(0, 280, 173, 25)
+        self.buttonImport = QPushButton("Import", self)
+        self.buttonImport.clicked.connect(self.importObject)
+        self.buttonImport.setGeometry(0, 315, 86, 25)
 
     def show_new_window_ponto(self):
         if self.coordinatesWidgetPonto is None:
@@ -88,4 +88,25 @@ class Menu(QWidget):
 
     def zoomOut(self):
         Window.zoom(1.1)
+
+    def importObject(self):
+        (document, filter) = QFileDialog.getOpenFileName(self, 'Open file', './imports', "(*.obj)")
+        nameObject = document.split('/')[-1].replace('.obj', '')
+        if document == "":
+            return
+        with open(document) as file:
+            data = file.read()
+            file_lines = [line.split(" ") for line in data.split("\n")]
+            vertices = {}
+            faces = []
+            for number, line in enumerate(file_lines):
+                if line[0] == "v":
+                    vertices[number + 1] = (int(line[1]), int(line[2]))
+                if line[0] == "f":
+                    face = []
+                    for index in line[1:]:
+                        face.append(vertices[int(index)])
+                    faces.append(face)
+            points = World.facesToPoints(faces)
+            World.addObject(Object(points, nameObject))
 
