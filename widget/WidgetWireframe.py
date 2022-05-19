@@ -47,7 +47,7 @@ class CoordinatesWidgetPoligono(QWidget):
         else:
             r, g, b = self.colorPoligono.displayText().strip().split(',')
             color = QColor(int(r), int(g), int(b))
-        World.addObject(Object(newpontos, "Wireframe", color))
+        World.add(Object(newpontos, "Wireframe", color))
         self.close()
         self.clearLabels()
 

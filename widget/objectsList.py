@@ -33,7 +33,7 @@ class ObjectsList(QWidget):
         self.objectListRendered = World.listObjects.copy()
 
     def launchTransformationWidget(self, item):
-        World.selectObject(item.text())
+        World.select_object(item.text())
         if (self.transformationWidget is None):
             self.transformationWidget = Transformation()
         self.transformationWidget.show()

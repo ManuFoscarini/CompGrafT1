@@ -10,12 +10,12 @@ class World:
         World.listObjects = []
 
     @staticmethod
-    def addObject(object):
+    def add(object):
         World.listObjects.append(object)
         World.numberObjects += 1
 
     @staticmethod
-    def selectObject(objectLabel):
+    def select_object(objectLabel):
         for object in World.listObjects:
             if (object.label == objectLabel):
                 World.selectedObject = object
@@ -26,7 +26,7 @@ class World:
         World.selectedObject = None
 
     @staticmethod
-    def facesToPoints(faces):
+    def faces_to_points(faces):
         points = []
         for face in faces:
             for point in face:

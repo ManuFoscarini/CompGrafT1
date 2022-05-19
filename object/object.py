@@ -1,10 +1,10 @@
 from PyQt5.QtGui import QColor
-from object.transform import Object2D
+from object.transform import TransformPoint
 from object.point import Point
 from object.world import World
 
 
-class Object(Object2D):
+class Object(TransformPoint):
     def __init__(self, points, type, color = QColor(0, 0, 0)):
         self.points = points
         self.color = color
@@ -33,7 +33,7 @@ class Object(Object2D):
                         self.points[position], self.points[0])
 
     def rotate(self, anchorPoint, angle):
-        coordinates = self.rotateObject(self.points, anchorPoint, angle)
+        coordinates = self.rotate_object(self.points, anchorPoint, angle)
         wireframeRotate = []
         for coordinate in coordinates:
             x, y, _ = coordinate
@@ -41,7 +41,7 @@ class Object(Object2D):
         self.points = wireframeRotate
 
     def translation(self, anchorPoint):
-        coordinates = self.translationObject(self.points, anchorPoint)
+        coordinates = self.translation_object(self.points, anchorPoint)
         wireframeTranslation = []
         for coordinate in coordinates:
             x, y, _ = coordinate
@@ -49,7 +49,7 @@ class Object(Object2D):
         self.points = wireframeTranslation
 
     def scale(self, scaleX, scaleY):
-        coordinates = self.scaleObject(self.points, scaleX, scaleY)
+        coordinates = self.scale_object(self.points, scaleX, scaleY)
         wireframeScale = []
         for coordinate in coordinates:
             x, y, _ = coordinate
@@ -61,7 +61,7 @@ class Object(Object2D):
         return Point(cx, cy)
 
     def normalized(self, centerPoint, angle, factor):
-        coordinates = self.normalizedObjects(self.points, centerPoint, angle, factor)
+        coordinates = self.normalized_objects(self.points, centerPoint, angle, factor)
         wireframeCoordinates = []
         for coordinate in coordinates:
             x, y, _ = coordinate

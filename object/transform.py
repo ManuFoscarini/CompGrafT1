@@ -1,9 +1,9 @@
 import numpy
 
 
-class Object2D:
+class TransformPoint:
 
-    def rotateObject(self, points, anchorPoint, angle):
+    def rotate_object(self, points, anchorPoint, angle):
         objectRotate = []
         for point in points:
             pointMatrix = [point.x, point.y, 1]
@@ -16,7 +16,7 @@ class Object2D:
             objectRotate.append(rotatePoint)
         return objectRotate
 
-    def scaleObject(self, points, scaleX, scaleY):
+    def scale_object(self, points, scaleX, scaleY):
         objectScale = []
         cx, cy = self.getCenterObject(points)
         for point in points:
@@ -30,7 +30,7 @@ class Object2D:
             objectScale.append(scalePoint)
         return objectScale
 
-    def translationObject(self, points, destinationPoint):
+    def translation_object(self, points, destinationPoint):
         objectTranslation = []
         for point in points:
             pointMatrix = [point.x, point.y, 1]
@@ -51,7 +51,7 @@ class Object2D:
     def getAngleInRadianus(self, angle):
         return angle * numpy.pi/180
 
-    def normalizedObjects(self, points, centerPoint, angle, factor):
+    def normalized_objects(self, points, centerPoint, angle, factor):
         wcx, wcy = centerPoint
         factorx, factory = factor
         objectNormalized = []

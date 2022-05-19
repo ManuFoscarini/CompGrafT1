@@ -9,17 +9,17 @@ class MainWidget(QWidget):
 
     def __init__(self):
         super().__init__()
-        leftWidget = Menu()
+        menu = Menu()
 
-        rightWidget = ViewPort()
+        view_port = ViewPort()
 
-        objectsList = ObjectsList()
+        objects_list = ObjectsList()
 
         grid = QGridLayout()
         grid.setSpacing(0)
 
-        grid.addWidget(leftWidget, 0, 0)
-        grid.addWidget(objectsList, 1, 0)
-        grid.addWidget(rightWidget, 0, 1)
+        grid.addWidget(menu, 0, 0)
+        grid.addWidget(objects_list, 1, 0)
+        grid.addWidget(view_port, 0, 1)
 
         self.setLayout(grid)

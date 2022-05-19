@@ -14,28 +14,28 @@ class Menu(QWidget):
         self.coordinatesWidgetPonto = None  
         self.coordinatesWidgetPoligono = None  
         self.buttonUp = QPushButton("↑", self)
-        self.buttonUp.clicked.connect(self.moveUp)
+        self.buttonUp.clicked.connect(self.move_up)
         self.buttonUp.setGeometry(43, 30, 86, 25)
         self.buttonLeft = QPushButton("←", self)
-        self.buttonLeft.clicked.connect(self.moveLeft)
+        self.buttonLeft.clicked.connect(self.move_left)
         self.buttonLeft.setGeometry(0, 55, 86, 25)
         self.buttonRight = QPushButton("→", self)
-        self.buttonRight.clicked.connect(self.moveRight)
+        self.buttonRight.clicked.connect(self.move_right)
         self.buttonRight.setGeometry(86, 55, 86, 25)
         self.buttonDown = QPushButton("↓", self)
-        self.buttonDown.clicked.connect(self.moveDown)
+        self.buttonDown.clicked.connect(self.move_down)
         self.buttonDown.setGeometry(43, 80, 86, 25)
         self.buttonZoomIn = QPushButton("+", self)
-        self.buttonZoomIn.clicked.connect(self.zoomIn)
+        self.buttonZoomIn.clicked.connect(self.zoom_in)
         self.buttonZoomIn.setGeometry(0, 125, 86, 25)
         self.buttonZoomOut = QPushButton("-", self)
-        self.buttonZoomOut.clicked.connect(self.zoomOut)
+        self.buttonZoomOut.clicked.connect(self.zoom_out)
         self.buttonZoomOut.setGeometry(86, 125, 86, 25)
         self.buttonRotateLeft = QPushButton("Rotacionar Esquerda", self)
-        self.buttonRotateLeft.clicked.connect(self.rotateLeft)
+        self.buttonRotateLeft.clicked.connect(self.rotate_left)
         self.buttonRotateLeft.setGeometry(0, 165, 173, 25)
         self.buttonRotateRight = QPushButton("Rotacionar Direita", self)
-        self.buttonRotateRight.clicked.connect(self.rotateRight)
+        self.buttonRotateRight.clicked.connect(self.rotate_right)
         self.buttonRotateRight.setGeometry(0, 190, 173, 25)
         self.buttonPoint = QPushButton("Ponto", self)
         self.buttonPoint.clicked.connect(self.show_new_window_ponto)
@@ -68,28 +68,28 @@ class Menu(QWidget):
             self.coordinatesWidgetPoligono = CoordinatesWidgetPoligono()
         self.coordinatesWidgetPoligono.show()
 
-    def rotateRight(self):
+    def rotate_right(self):
         Window.rotateWindow(-10)
 
-    def rotateLeft(self):
+    def rotate_left(self):
         Window.rotateWindow(10)
 
-    def moveUp(self):
+    def move_up(self):
         Window.move([0, 5])
 
-    def moveDown(self):
+    def move_down(self):
         Window.move([0, -5])
 
-    def moveLeft(self):
+    def move_left(self):
         Window.move([-5, 0])
 
-    def moveRight(self):
+    def move_right(self):
         Window.move([5, 0])
 
-    def zoomIn(self):
+    def zoom_in(self):
         Window.zoom(0.9)
 
-    def zoomOut(self):
+    def zoom_out(self):
         Window.zoom(1.1)
 
     def LerOBJ(self):
@@ -110,8 +110,8 @@ class Menu(QWidget):
                     for index in line[1:]:
                         face.append(vertices[int(index)])
                     faces.append(face)
-            points = World.facesToPoints(faces)
-            World.addObject(Object(points, nameObject))
+            points = World.faces_to_points(faces)
+            World.add(Object(points, nameObject))
 
     def DescritorOBJ(self):
         if World.selectedObject is not None:
