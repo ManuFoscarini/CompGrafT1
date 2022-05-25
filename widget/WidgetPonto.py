@@ -48,7 +48,7 @@ class CoordinatesWidgetPonto(QWidget):
             r, g, b = self.colorPoint.displayText().strip().split(',')
             color = QColor(int(r), int(g), int(b))
         point = Point(x, y)
-        newObject = Object([point], 'Point', color)
+        newObject = Object([point], 'Point', color, False)
         World.add(newObject)
         self.close()
         self.clearLabels()

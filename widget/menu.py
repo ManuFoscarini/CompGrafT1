@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QPushButton, QWidget, QFileDialog
+from PyQt5.QtWidgets import QPushButton, QWidget, QFileDialog, QCheckBox, QButtonGroup
 from widget.WidgetPonto import CoordinatesWidgetPonto
 from widget.WidgetLinha import CoordinatesWidgetLinha
 from widget.WidgetWireframe import CoordinatesWidgetPoligono
@@ -48,10 +48,20 @@ class Menu(QWidget):
         self.buttonPolygon.setGeometry(0, 280, 173, 25)
         self.buttonImport = QPushButton("Importar", self)
         self.buttonImport.clicked.connect(self.LerOBJ)
-        self.buttonImport.setGeometry(0, 315, 86, 25)
+        self.buttonImport.setGeometry(0, 322, 86, 20)
         self.buttonExport = QPushButton("Exportar", self)
         self.buttonExport.clicked.connect(self.DescritorOBJ)
-        self.buttonExport.setGeometry(86, 315, 86, 25)
+        self.buttonExport.setGeometry(86, 322, 86, 20)
+        self.checkBox1 = QCheckBox("Cohen-Sutherland", self)
+        self.checkBox1.setChecked(True)
+        self.checkBox1.stateChanged.connect(lambda: self.chosen_tecnic(self.checkBox1))
+        self.checkBox1.setGeometry(0, 305, 86, 20)
+        self.checkBox2 = QCheckBox("Liang-Barsky", self)
+        self.checkBox1.stateChanged.connect(lambda: self.chosen_tecnic(self.checkBox2))
+        self.checkBox2.setGeometry(86, 305, 86, 20)
+        self.bg = QButtonGroup()
+        self.bg.addButton(self.checkBox1, 1)
+        self.bg.addButton(self.checkBox2, 2)
 
     def show_new_window_ponto(self):
         if self.coordinatesWidgetPonto is None:
@@ -126,5 +136,13 @@ class Menu(QWidget):
             text += faces + '\n'
             file.write(text)
             file.close()
+
+    def chosen_tecnic(self, checkBox):
+        if checkBox.text() == "Cohen-Sutherland":
+            if checkBox.isChecked() == True:
+                Window.LINECLIPPING = "CohenSutherland"
+        if checkBox.text() == "Liang-Barsky":
+            if checkBox.isChecked() == True:
+                Window.LINECLIPPING = "LiangBarsky"
 
 

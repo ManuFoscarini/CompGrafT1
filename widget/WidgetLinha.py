@@ -61,7 +61,7 @@ class CoordinatesWidgetLinha(QWidget):
         y2 = int(self.coordenadaY2.displayText())
         ponto2 = Point(x2, y2)
 
-        line = Object([ponto1, ponto2], "Line", color)
+        line = Object([ponto1, ponto2], "Line", color, False)
         World.add(line)
         self.close()
         self.clearLabels()

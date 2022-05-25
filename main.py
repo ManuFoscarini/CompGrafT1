@@ -16,6 +16,3 @@ class Main:
 
 if __name__ == '__main__':
     Main()
-
-
-#TODO: precisou remover as linhas x e y pois devido a normalização estavam se movendo com a window

@@ -1,15 +1,18 @@
-from PyQt5.QtGui import QColor
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QBrush, QPainterPath
 from object.transform import TransformPoint
 from object.point import Point
 from object.world import World
 
 
 class Object(TransformPoint):
-    def __init__(self, points, type, color = QColor(0, 0, 0)):
+    def __init__(self, points, type, color, filled):
         self.points = points
         self.color = color
         self.type = type
         self.label = "#{}: {}".format(World.numberObjects, self.type)
+        self.clip = False
+        self.filled = filled
 
     def setType(self, type):
         self.type = type
@@ -18,19 +21,22 @@ class Object(TransformPoint):
         self.points = points
 
     def draw(self, painter):
+        if self.clip:
+            return
+        path = QPainterPath()
         painter.setPen(self.color)
         if (len(self.points) == 1):
             painter.drawPoint(self.points[0])
         elif (len(self.points) == 2):
             painter.drawLine(self.points[0], self.points[1])
-        else:
-            for position in range(0, len(self.points)):
-                if(position < (len(self.points) - 1)):
-                    painter.drawLine(
-                        self.points[position], self.points[position+1])
-                else:
-                    painter.drawLine(
-                        self.points[position], self.points[0])
+        elif (len(self.points) > 2):
+            if self.filled:
+                painter.setBrush(QBrush(self.color, Qt.SolidPattern))
+            path.moveTo(self.points[0])
+            for point in self.points:
+                path.lineTo(point)
+            path.lineTo(self.points[0])
+            painter.drawPath(path)
 
     def rotate(self, anchorPoint, angle):
         coordinates = self.rotate_object(self.points, anchorPoint, angle)
