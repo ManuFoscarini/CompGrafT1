@@ -116,6 +116,25 @@ class Window():
             if len(object.points) == 1:
                 if not(xmin <= object.points[0].x <= xmax and ymin <= object.points[0].y <= ymax):
                     Window.listObjects[i].clip = True
+    @staticmethod
+    def curveClipping(self, listObjects):
+        for i, object in enumerate(listObjects):
+            if object.type == "Curve Bezier" or object.type == "Curve Spline":
+                newPoints = []
+                for i in range(0, len(object.points) - 1):
+                    point1 = object.points[i]
+                    point2 = object.points[i+1]
+                    line = [point1, point2]
+                    if(Window.LINECLIPPING == "CohenSutherland"):
+                        newLine = self.cohenSutherland(line)
+                    else:
+                        newLine = self.liangBarsky(line)
+
+                    if(newLine is not None):
+                        [[x1, y1], [x2, y2]] = newLine
+                        newPoints.append([x1, y1])
+                        newPoints.append([x2, y2])
+                object.points = newPoints
 
     @staticmethod
     def lineClipping():
@@ -144,7 +163,7 @@ class Window():
         copyList = Window.listObjects.copy()
         for i, object in enumerate(copyList):
             subject = []
-            if len(object.points) > 2:
+            if len(object.points) > 2 and object.type != 'Curve Bezier' and object.type != 'Curve Spline':
                 for point in object.points:
                     subject.append([point.x, point.y])
                 newSubject = Window.sutherlandHodgman(subject)

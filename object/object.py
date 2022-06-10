@@ -25,6 +25,12 @@ class Object(TransformPoint):
             return
         path = QPainterPath()
         painter.setPen(self.color)
+        if (self.type == 'Curve Bezier' or self.type == 'Curve Spline'):
+            for position in range(0, len(self.points) - 1):
+                x1, y1 = self.points[position]
+                x2, y2 = self.points[position+1]
+                painter.drawLine(x1, y1, x2, y2)
+            return
         if (len(self.points) == 1):
             painter.drawPoint(self.points[0])
         elif (len(self.points) == 2):
