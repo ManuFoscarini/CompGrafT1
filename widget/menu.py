@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import QPushButton, QWidget, QFileDialog, QCheckBox, QButto
 from widget.WidgetPonto import CoordinatesWidgetPonto
 from widget.WidgetLinha import CoordinatesWidgetLinha
 from widget.WidgetWireframe import CoordinatesWidgetPoligono
+from widget.WidgetCurve import WidgetCurve
+from widget.WidgetSpline import WidgetSpline
 from object.window import Window
 from object.world import World
 from object.object import Object
@@ -12,25 +14,27 @@ class Menu(QWidget):
         super().__init__()
         self.coordinatesWidgetLinha = None
         self.coordinatesWidgetPonto = None  
-        self.coordinatesWidgetPoligono = None  
+        self.coordinatesWidgetPoligono = None
+        self.coordinatesWidgetCurve = None  
+        self.coordinatesWidgetSpline = None  
         self.buttonUp = QPushButton("↑", self)
         self.buttonUp.clicked.connect(self.move_up)
-        self.buttonUp.setGeometry(43, 30, 86, 25)
+        self.buttonUp.setGeometry(43, 0, 86, 25)
         self.buttonLeft = QPushButton("←", self)
         self.buttonLeft.clicked.connect(self.move_left)
-        self.buttonLeft.setGeometry(0, 55, 86, 25)
+        self.buttonLeft.setGeometry(0, 25, 86, 25)
         self.buttonRight = QPushButton("→", self)
         self.buttonRight.clicked.connect(self.move_right)
-        self.buttonRight.setGeometry(86, 55, 86, 25)
+        self.buttonRight.setGeometry(86, 25, 86, 25)
         self.buttonDown = QPushButton("↓", self)
         self.buttonDown.clicked.connect(self.move_down)
-        self.buttonDown.setGeometry(43, 80, 86, 25)
+        self.buttonDown.setGeometry(43, 50, 86, 25)
         self.buttonZoomIn = QPushButton("+", self)
         self.buttonZoomIn.clicked.connect(self.zoom_in)
-        self.buttonZoomIn.setGeometry(0, 125, 86, 25)
+        self.buttonZoomIn.setGeometry(0, 75, 86, 25)
         self.buttonZoomOut = QPushButton("-", self)
         self.buttonZoomOut.clicked.connect(self.zoom_out)
-        self.buttonZoomOut.setGeometry(86, 125, 86, 25)
+        self.buttonZoomOut.setGeometry(86, 75, 86, 25)
         self.buttonRotateLeft = QPushButton("Rotacionar Esquerda", self)
         self.buttonRotateLeft.clicked.connect(self.rotate_left)
         self.buttonRotateLeft.setGeometry(0, 165, 173, 25)
@@ -39,26 +43,32 @@ class Menu(QWidget):
         self.buttonRotateRight.setGeometry(0, 190, 173, 25)
         self.buttonPoint = QPushButton("Ponto", self)
         self.buttonPoint.clicked.connect(self.show_new_window_ponto)
-        self.buttonPoint.setGeometry(0, 230, 173, 25)
+        self.buttonPoint.setGeometry(0, 160, 173, 25)
         self.buttonLine = QPushButton("Linha", self)
         self.buttonLine.clicked.connect(self.show_new_window_linha)
-        self.buttonLine.setGeometry(0, 255, 173, 25)
+        self.buttonLine.setGeometry(0, 185, 173, 25)
         self.buttonPolygon = QPushButton("Wireframe", self)
         self.buttonPolygon.clicked.connect(self.show_new_window_poligono)
-        self.buttonPolygon.setGeometry(0, 280, 173, 25)
+        self.buttonPolygon.setGeometry(0, 210, 173, 25)
         self.buttonImport = QPushButton("Importar", self)
         self.buttonImport.clicked.connect(self.LerOBJ)
-        self.buttonImport.setGeometry(0, 322, 86, 20)
+        self.buttonImport.setGeometry(0, 315, 86, 20)
         self.buttonExport = QPushButton("Exportar", self)
         self.buttonExport.clicked.connect(self.DescritorOBJ)
-        self.buttonExport.setGeometry(86, 322, 86, 20)
+        self.buttonExport.setGeometry(86, 315, 86, 20)
         self.checkBox1 = QCheckBox("Cohen-Sutherland", self)
         self.checkBox1.setChecked(True)
         self.checkBox1.stateChanged.connect(lambda: self.chosen_tecnic(self.checkBox1))
-        self.checkBox1.setGeometry(0, 305, 86, 20)
+        self.checkBox1.setGeometry(0, 285, 86, 20)
         self.checkBox2 = QCheckBox("Liang-Barsky", self)
         self.checkBox1.stateChanged.connect(lambda: self.chosen_tecnic(self.checkBox2))
-        self.checkBox2.setGeometry(86, 305, 86, 20)
+        self.checkBox2.setGeometry(86, 285, 86, 20)
+        self.buttonCurve = QPushButton("Curva", self)
+        self.buttonCurve.clicked.connect(self.show_new_window_curve)
+        self.buttonCurve.setGeometry(0, 235, 173, 25)
+        self.buttonSpline = QPushButton("Spline", self)
+        self.buttonSpline.clicked.connect(self.show_new_window_spline)
+        self.buttonSpline.setGeometry(0, 260, 173, 25)
         self.bg = QButtonGroup()
         self.bg.addButton(self.checkBox1, 1)
         self.bg.addButton(self.checkBox2, 2)
@@ -77,6 +87,16 @@ class Menu(QWidget):
         if self.coordinatesWidgetPoligono is None:
             self.coordinatesWidgetPoligono = CoordinatesWidgetPoligono()
         self.coordinatesWidgetPoligono.show()
+
+    def show_new_window_curve(self):
+        if self.coordinatesWidgetCurve is None:
+            self.coordinatesWidgetCurve = WidgetCurve()
+        self.coordinatesWidgetCurve.show()
+
+    def show_new_window_spline(self):
+        if self.coordinatesWidgetSpline is None:
+            self.coordinatesWidgetSpline = WidgetSpline()
+        self.coordinatesWidgetSpline.show()
 
     def rotate_right(self):
         Window.rotateWindow(-10)

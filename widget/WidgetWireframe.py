@@ -63,3 +63,4 @@ class CoordinatesWidgetPoligono(QWidget):
 
     def clearLabels(self):
         self.coordenadaXY.clear()
+        self.colorPoligono.clear()

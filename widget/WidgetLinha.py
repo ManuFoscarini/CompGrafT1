@@ -71,3 +71,4 @@ class CoordinatesWidgetLinha(QWidget):
         self.coordenadaY1.clear()
         self.coordenadaX2.clear()
         self.coordenadaY2.clear()
+        self.colorLine.clear()

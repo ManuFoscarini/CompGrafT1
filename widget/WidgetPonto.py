@@ -56,3 +56,4 @@ class CoordinatesWidgetPonto(QWidget):
     def clearLabels(self):
         self.coordenadaX.clear()
         self.coordenadaY.clear()
+        self.colorPoint.clear()

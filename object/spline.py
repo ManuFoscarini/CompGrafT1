@@ -1,4 +1,5 @@
 import numpy
+from object.point import Point
 
 
 class Spline():
@@ -11,6 +12,7 @@ class Spline():
             self.points += self._generate_curve(points[i:i+4])
 
     def _generate_curve(self, points):
+        points = self.makeCoordinates(points)
         coef = numpy.multiply(1/6, numpy.array([
             [-1, 3, -3, 1],
             [3, -6, 3, 0],
@@ -27,11 +29,25 @@ class Spline():
             [6*delta**3, 0, 0, 0],
         ]).dot(coef)
 
-        points = list(deltas[0])
+        points = [tuple(deltas[0])]
         for _ in range(number_of_points):
             # update coordinates using forward differences
             deltas[0] += deltas[1]
             deltas[1] += deltas[2]
             deltas[2] += deltas[3]
-            points.append(list(deltas[0]))
-        return points
+            points.append(tuple(deltas[0]))
+        return self.coordinatesToPoint(points)
+
+    def makeCoordinates(self, points):
+        coordinates = []
+        for i in range(0, len(points)):
+            coordinates.append([points[i].x, points[i].y])
+        return coordinates
+
+    def coordinatesToPoint(self, points):
+        newPoints = []
+        for point in points:
+            x, y = point
+            newPoints.append(Point(x, y))
+
+        return newPoints

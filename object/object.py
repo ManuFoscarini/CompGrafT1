@@ -6,7 +6,7 @@ from object.world import World
 
 
 class Object(TransformPoint):
-    def __init__(self, points, type, color, filled):
+    def __init__(self, points, type, color, filled=False):
         self.points = points
         self.color = color
         self.type = type
@@ -25,12 +25,12 @@ class Object(TransformPoint):
             return
         path = QPainterPath()
         painter.setPen(self.color)
+
         if (self.type == 'Curve Bezier' or self.type == 'Curve Spline'):
             for position in range(0, len(self.points) - 1):
-                x1, y1 = self.points[position]
-                x2, y2 = self.points[position+1]
-                painter.drawLine(x1, y1, x2, y2)
+                painter.drawLine(self.points[position], self.points[position+1])
             return
+
         if (len(self.points) == 1):
             painter.drawPoint(self.points[0])
         elif (len(self.points) == 2):
@@ -79,3 +79,11 @@ class Object(TransformPoint):
             x, y, _ = coordinate
             wireframeCoordinates.append(Point(x, y))
         self.points = wireframeCoordinates
+
+    def coordinatesToPoint(self, points):
+        newPoints = []
+        for point in points:
+            x, y = point
+            newPoints.append(Point(x, y))
+
+        return newPoints
