@@ -1,12 +1,12 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QBrush, QPainterPath
+from PyQt5.QtGui import QBrush, QPainterPath, QColor
 from object.transform import TransformPoint
 from object.point import Point
 from object.world import World
 
 
 class Object(TransformPoint):
-    def __init__(self, points, type, color, filled=False):
+    def __init__(self, points, type, color = QColor(0, 0, 0), filled=False):
         self.points = points
         self.color = color
         self.type = type

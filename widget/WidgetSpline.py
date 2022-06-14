@@ -20,11 +20,11 @@ class WidgetSpline(QWidget):
 
         self.layout.addWidget(QLabel('Todas as coordenada X e Y (No minimo 4 pontos): x1,y1;x2,y2;x3,y3;x4,y4'))
         self.layout.addWidget(self.coordenadaXY)
-        self.layout.addWidget(QLabel('Color: r,g,b (between 0 and 255)'))
+        self.layout.addWidget(QLabel('Cor: r,g,b (0 - 255)'))
         self.layout.addWidget(self.colorSpline)
 
-        self.Confirma = QPushButton('Confirmar')
-        self.Confirma.setStyleSheet('font-size: 30px')
+        self.Confirma = QPushButton('Ok')
+        self.Confirma.setStyleSheet('font-size: 12px')
         self.layout.addWidget(self.Confirma)
         self.Confirma.clicked.connect(self.printXeY)
         self.setLayout(self.layout)

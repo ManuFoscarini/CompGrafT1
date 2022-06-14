@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QPushButton, QWidget, QFileDialog, QCheckBox, QButtonGroup
+from PyQt5.QtWidgets import QPushButton, QWidget, QFileDialog, QCheckBox, QButtonGroup, QLabel, QLineEdit 
 from widget.WidgetPonto import CoordinatesWidgetPonto
 from widget.WidgetLinha import CoordinatesWidgetLinha
 from widget.WidgetWireframe import CoordinatesWidgetPoligono
@@ -35,12 +35,13 @@ class Menu(QWidget):
         self.buttonZoomOut = QPushButton("-", self)
         self.buttonZoomOut.clicked.connect(self.zoom_out)
         self.buttonZoomOut.setGeometry(86, 75, 86, 25)
-        self.buttonRotateLeft = QPushButton("Rotacionar Esquerda", self)
-        self.buttonRotateLeft.clicked.connect(self.rotate_left)
-        self.buttonRotateLeft.setGeometry(0, 165, 173, 25)
-        self.buttonRotateRight = QPushButton("Rotacionar Direita", self)
-        self.buttonRotateRight.clicked.connect(self.rotate_right)
-        self.buttonRotateRight.setGeometry(0, 190, 173, 25)
+        self.rotateWinAngLabel = QLabel("Ângulo da rotação:", self)
+        self.rotateWinAngLabel.setGeometry(0, 100, 120, 25)
+        self.rotateWinAng = QLineEdit("10", self)
+        self.rotateWinAng.setGeometry(120, 100, 52, 25)
+        self.buttonRotateLeft = QPushButton("Rotacionar", self)
+        self.buttonRotateLeft.clicked.connect(self.rotateWindow)
+        self.buttonRotateLeft.setGeometry(0, 125, 173, 25)
         self.buttonPoint = QPushButton("Ponto", self)
         self.buttonPoint.clicked.connect(self.show_new_window_ponto)
         self.buttonPoint.setGeometry(0, 160, 173, 25)
@@ -51,10 +52,10 @@ class Menu(QWidget):
         self.buttonPolygon.clicked.connect(self.show_new_window_poligono)
         self.buttonPolygon.setGeometry(0, 210, 173, 25)
         self.buttonImport = QPushButton("Importar", self)
-        self.buttonImport.clicked.connect(self.LerOBJ)
+        self.buttonImport.clicked.connect(self.importObject)
         self.buttonImport.setGeometry(0, 315, 86, 20)
         self.buttonExport = QPushButton("Exportar", self)
-        self.buttonExport.clicked.connect(self.DescritorOBJ)
+        self.buttonExport.clicked.connect(self.exportObject)
         self.buttonExport.setGeometry(86, 315, 86, 20)
         self.checkBox1 = QCheckBox("Cohen-Sutherland", self)
         self.checkBox1.setChecked(True)
@@ -98,11 +99,9 @@ class Menu(QWidget):
             self.coordinatesWidgetSpline = WidgetSpline()
         self.coordinatesWidgetSpline.show()
 
-    def rotate_right(self):
-        Window.rotateWindow(-10)
-
-    def rotate_left(self):
-        Window.rotateWindow(10)
+    def rotateWindow(self):
+        angleWin = int(self.rotateWinAng.displayText())
+        Window.rotateWindow(angleWin)
 
     def move_up(self):
         Window.move([0, 5])
@@ -122,8 +121,16 @@ class Menu(QWidget):
     def zoom_out(self):
         Window.zoom(1.1)
 
-    def LerOBJ(self):
-        (document, filter) = QFileDialog.getOpenFileName(self, 'Open file', './imports', "(*.obj)")
+    def chosen_tecnic(self, checkBox):
+        if checkBox.text() == "Cohen-Sutherland":
+            if checkBox.isChecked() == True:
+                Window.LINECLIPPING = "CohenSutherland"
+        if checkBox.text() == "Liang-Barsky":
+            if checkBox.isChecked() == True:
+                Window.LINECLIPPING = "LiangBarsky"
+
+    def importObject(self):
+        (document, filter) = QFileDialog.getOpenFileName(self, 'Open file', './object', "(*.obj)")
         nameObject = document.split('/')[-1].replace('.obj', '')
         if document == "":
             return
@@ -134,18 +141,21 @@ class Menu(QWidget):
             faces = []
             for number, line in enumerate(file_lines):
                 if line[0] == "v":
-                    vertices[number + 1] = (int(line[1]), int(line[2]))
+                    vertices[number + 1] = (float(line[1]), float(line[2]))
                 if line[0] == "f":
                     face = []
                     for index in line[1:]:
                         face.append(vertices[int(index)])
                     faces.append(face)
-            points = World.faces_to_points(faces)
-            World.add(Object(points, nameObject))
+            for face in faces:
+                points = World.faces_to_points(face)
+                World.addObject(Object(points, nameObject))
 
-    def DescritorOBJ(self):
+    def exportObject(self):
         if World.selectedObject is not None:
-            (document, filter) = QFileDialog.getSaveFileName(self, 'Save File', './imports', "(*.obj)")
+            (document, filter) = QFileDialog.getSaveFileName(self, 'Save File', './object', "(*.obj)")
+            if document == "":
+                return
             file = open(document, 'w')
             points = World.selectedObject.points
             text = ''
@@ -156,13 +166,3 @@ class Menu(QWidget):
             text += faces + '\n'
             file.write(text)
             file.close()
-
-    def chosen_tecnic(self, checkBox):
-        if checkBox.text() == "Cohen-Sutherland":
-            if checkBox.isChecked() == True:
-                Window.LINECLIPPING = "CohenSutherland"
-        if checkBox.text() == "Liang-Barsky":
-            if checkBox.isChecked() == True:
-                Window.LINECLIPPING = "LiangBarsky"
-
-

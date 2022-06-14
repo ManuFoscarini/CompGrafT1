@@ -21,11 +21,11 @@ class WidgetCurve(QWidget):
 
         self.layout.addWidget(QLabel('Todas as coordenada X e Y: x1,y1;x2,y2;x3,y3;x4,y4'))
         self.layout.addWidget(self.coordenadaXY)
-        self.layout.addWidget(QLabel('Color: r,g,b (between 0 and 255)'))
+        self.layout.addWidget(QLabel('Cor: r,g,b (0 - 255)'))
         self.layout.addWidget(self.colorCurve)
 
-        self.Confirma = QPushButton('Confirmar')
-        self.Confirma.setStyleSheet('font-size: 30px')
+        self.Confirma = QPushButton('Ok')
+        self.Confirma.setStyleSheet('font-size: 15px')
         self.layout.addWidget(self.Confirma)
         self.Confirma.clicked.connect(self.printXeY)
         self.setLayout(self.layout)
@@ -42,7 +42,7 @@ class WidgetCurve(QWidget):
         for stringPonto in coordenadasXY:
             if(stringPonto != ''):
                 x, y = stringPonto.split(',')
-                newpontos.append([float(x), float(y)])
+                newpontos.append(Point(int(x), int(y)))
         if (self.colorCurve.displayText() == ""):
             r, g, b = 0, 0, 0
             color = QColor(int(r), int(g), int(b))
@@ -50,7 +50,7 @@ class WidgetCurve(QWidget):
             r, g, b = self.colorCurve.displayText().strip().split(',')
             color = QColor(int(r), int(g), int(b))
         curve = Curve(newpontos)
-        World.add(TransformPoint(curve.points, 'Curve Bezier', color))
+        World.add(Object(curve.points, 'Curve Bezier', color))
         self.close()
         self.clearLabels()
 

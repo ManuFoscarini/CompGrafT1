@@ -29,7 +29,7 @@ class CoordinatesWidgetLinha(QWidget):
         layout.addWidget(self.coordenadaX2)
         layout.addWidget(QLabel('Y2:'))
         layout.addWidget(self.coordenadaY2)
-        layout.addWidget(QLabel('Color: r,g,b (0 - 255)'))
+        layout.addWidget(QLabel('Cor: r,g,b (0 - 255)'))
         layout.addWidget(self.colorLine)
 
         self.Confirma = QPushButton('Ok')

@@ -22,7 +22,7 @@ class CoordinatesWidgetPonto(QWidget):
         layout.addWidget(self.coordenadaX)
         layout.addWidget(QLabel('Y:'))
         layout.addWidget(self.coordenadaY)
-        layout.addWidget(QLabel('Color: r,g,b (0 - 255)'))
+        layout.addWidget(QLabel('Cor: r,g,b (0 - 255)'))
         layout.addWidget(self.colorPoint)
 
         self.Confirma = QPushButton('Ok')

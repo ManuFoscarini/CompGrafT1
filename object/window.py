@@ -26,16 +26,21 @@ class Window():
     points.append(points[0])
 
     @staticmethod
+    def copyListObjects(listObjects):
+        newListObject = []
+        for object in listObjects:
+            newObject = Object(object.points, object.type, object.color, object.filled)
+            newObject.clip = object.clip
+            newListObject.append(newObject)
+        return newListObject
+
+    @staticmethod
     def normalizedObjects():
-        Window.listObjects = []
+        Window.listObjects = Window.copyListObjects(World.listObjects)
         wcx, wcy = Window.center()
-        for object in World.listObjects:
-            rotateObject = Object(object.points, object.type, object.color, object.filled)
-            rotateObject.rotate(Point(wcx, wcy), numpy.radians(Window.rotateAngle))
-            Window.listObjects.append(rotateObject)
-        Window.pointClipping()
-        Window.lineClipping()
-        Window.polygonClipping()
+        for object in Window.listObjects:
+            object.rotate(Point(wcx, wcy), numpy.radians(Window.rotateAngle))
+        Window.clip()
 
     @staticmethod
     def expanded_boundaries():
@@ -59,13 +64,24 @@ class Window():
 
     @staticmethod
     def rotateWindow(angle):
-        Window.rotateAngle += angle
+        if(Window.rotateAngle + angle <= 90 and Window.rotateAngle + angle >= -90):
+            Window.rotateAngle += angle
 
     @staticmethod
     def move(offSet):
         newPoints = []
+        angle = numpy.radians(-Window.rotateAngle)
+        offSetx, offSety = offSet
+        rotateMatrix = [
+            [numpy.cos(angle), -numpy.sin(angle), 0], 
+            [numpy.sin(angle), numpy.cos(angle), 0], 
+            [0, 0, 1]
+        ]
         for point in Window.points:
-            newPoints.append(tuple(numpy.add(point, offSet)))
+            offSet = numpy.dot([offSetx, offSety, 1], rotateMatrix)
+            xp, yp = point
+            x, y, _ = numpy.add([xp, yp, 1], offSet)
+            newPoints.append((x, y))
         Window.points = newPoints
 
     @staticmethod
@@ -105,41 +121,47 @@ class Window():
             x, y, _ = numpy.dot(operation_matrix, [point[0], point[1], 1])
             newPoints.append(tuple([x, y]))
         Window.points = newPoints
-  
+
+    @staticmethod
+    def clip():
+        Window.pointClipping()
+        Window.lineClipping()
+        Window.curveClipping()
+        Window.polygonClipping()
+
     @staticmethod
     def pointClipping():
         minimum, maximum = Window.boundaries()
         xmin, ymin = minimum
         xmax, ymax = maximum
-        copyList = Window.listObjects.copy()
-        for i, object in enumerate(copyList):
+        for i, object in enumerate(Window.listObjects):
             if len(object.points) == 1:
                 if not(xmin <= object.points[0].x <= xmax and ymin <= object.points[0].y <= ymax):
                     Window.listObjects[i].clip = True
+
     @staticmethod
-    def curveClipping(self, listObjects):
-        for i, object in enumerate(listObjects):
+    def curveClipping():
+        for i, object in enumerate(Window.listObjects):
             if object.type == "Curve Bezier" or object.type == "Curve Spline":
                 newPoints = []
                 for i in range(0, len(object.points) - 1):
                     point1 = object.points[i]
                     point2 = object.points[i+1]
-                    line = [point1, point2]
+                    line = [(point1.x, point1.y), (point2.x, point2.y)]
                     if(Window.LINECLIPPING == "CohenSutherland"):
-                        newLine = self.cohenSutherland(line)
+                        newLine = Window.cohenSutherland(line)
                     else:
-                        newLine = self.liangBarsky(line)
+                        newLine = Window.liangBarsky(line)
 
                     if(newLine is not None):
-                        [[x1, y1], [x2, y2]] = newLine
-                        newPoints.append([x1, y1])
-                        newPoints.append([x2, y2])
+                        [(x1, y1), (x2, y2)] = newLine
+                        newPoints.append(Point(x1, y1))
+                        newPoints.append(Point(x2, y2))
                 object.points = newPoints
 
     @staticmethod
     def lineClipping():
-        copyList = Window.listObjects.copy()
-        for i, object in enumerate(copyList):
+        for i, object in enumerate(Window.listObjects):
             if len(object.points) == 2:
                 x1 = object.points[0].x
                 y1 = object.points[0].y
@@ -160,8 +182,7 @@ class Window():
 
     @staticmethod
     def polygonClipping():
-        copyList = Window.listObjects.copy()
-        for i, object in enumerate(copyList):
+        for i, object in enumerate(Window.listObjects):
             subject = []
             if len(object.points) > 2 and object.type != 'Curve Bezier' and object.type != 'Curve Spline':
                 for point in object.points:
@@ -309,5 +330,3 @@ class Window():
                 s = e
             cp0 = cp1
         return output
-    
-

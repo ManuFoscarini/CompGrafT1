@@ -19,7 +19,7 @@ class CoordinatesWidgetPoligono(QWidget):
 
         self.layout.addWidget(QLabel('Todas as coordenada X e Y: x1,y1;x2,y2'))
         self.layout.addWidget(self.coordenadaXY)
-        self.layout.addWidget(QLabel('Color: r,g,b (0 - 255)'))
+        self.layout.addWidget(QLabel('Cor: r,g,b (0 - 255)'))
         self.layout.addWidget(self.colorPoligono)
 
         self.b1 = QCheckBox("Filled Poligon")
@@ -51,12 +51,10 @@ class CoordinatesWidgetPoligono(QWidget):
         else:
             r, g, b = self.colorPoligono.displayText().strip().split(',')
             color = QColor(int(r), int(g), int(b))
-
         if self.b1.isChecked() == True:
             filled = True
         else:
             filled = False
-
         World.add(Object(newpontos, "Wireframe", color, filled))
         self.close()
         self.clearLabels()
