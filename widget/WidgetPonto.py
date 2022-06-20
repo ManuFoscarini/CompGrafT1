@@ -3,8 +3,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget, QPushButton, QLineEdit, QVBoxLayout, QLabel
 from PyQt5.QtGui import QColor
 from object.world import World
-from object.point import Point
-from object.object import Object
+from object.object import Object2D
 
 
 class CoordinatesWidgetPonto(QWidget):
@@ -22,16 +21,16 @@ class CoordinatesWidgetPonto(QWidget):
         layout.addWidget(self.coordenadaX)
         layout.addWidget(QLabel('Y:'))
         layout.addWidget(self.coordenadaY)
-        layout.addWidget(QLabel('Cor: r,g,b (0 - 255)'))
+        layout.addWidget(QLabel('Color: r,g,b (0 - 255)'))
         layout.addWidget(self.colorPoint)
 
         self.Confirma = QPushButton('Ok')
-        self.Confirma.setStyleSheet('font-size: 12px')
+        self.Confirma.setStyleSheet('font-size: 15px')
         layout.addWidget(self.Confirma)
         self.Confirma.clicked.connect(self.printXeY)
 
         self.Limpar = QPushButton('Limpar')
-        self.Limpar.setStyleSheet('font-size: 12px')
+        self.Limpar.setStyleSheet('font-size: 15px')
         layout.addWidget(self.Limpar)
         self.Limpar.clicked.connect(self.clearLabels)
         self.setLayout(layout)
@@ -47,9 +46,8 @@ class CoordinatesWidgetPonto(QWidget):
         else:
             r, g, b = self.colorPoint.displayText().strip().split(',')
             color = QColor(int(r), int(g), int(b))
-        point = Point(x, y)
-        newObject = Object([point], 'Point', color, False)
-        World.add(newObject)
+        point = [x, y]
+        World.addObject(Object2D([point], 'Point', color, False))
         self.close()
         self.clearLabels()
 

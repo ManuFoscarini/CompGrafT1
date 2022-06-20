@@ -1,9 +1,8 @@
 from PyQt5.QtWidgets import QWidget, QPushButton, QLineEdit, QVBoxLayout, QLabel
 from PyQt5.QtGui import QColor
 from object.world import World
-from object.point import Point
 from object.spline import Spline
-from object.object import Object
+from object.object import Object2D
 
 
 
@@ -24,7 +23,7 @@ class WidgetSpline(QWidget):
         self.layout.addWidget(self.colorSpline)
 
         self.Confirma = QPushButton('Ok')
-        self.Confirma.setStyleSheet('font-size: 12px')
+        self.Confirma.setStyleSheet('font-size: 15px')
         self.layout.addWidget(self.Confirma)
         self.Confirma.clicked.connect(self.printXeY)
         self.setLayout(self.layout)
@@ -41,16 +40,16 @@ class WidgetSpline(QWidget):
         for stringPonto in coordenadasXY:
             if(stringPonto != ''):
                 x, y = stringPonto.split(',')
-                newpontos.append(Point(int(x), int(y)))
+                newpontos.append([float(x), float(y)])
         if (self.colorSpline.displayText() == ""):
             r, g, b = 0, 0, 0
             color = QColor(int(r), int(g), int(b))
         else:
             r, g, b = self.colorSpline.displayText().strip().split(',')
             color = QColor(int(r), int(g), int(b))
-    
+
         spline = Spline(newpontos)
-        World.add(Object(spline.points, 'Curve Spline', color))
+        World.addObject(Object2D(spline.points, 'Curve Spline', color))
         self.close()
         self.clearLabels()
 

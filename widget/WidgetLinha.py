@@ -1,11 +1,7 @@
-import sys
-from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget, QPushButton, QLineEdit, QVBoxLayout, QLabel
 from PyQt5.QtGui import QColor
 from object.world import World
-from object.point import Point
-from object.object import Object
-from widget.objectsList import ObjectsList
+from object.object import Object2D
 
 
 class CoordinatesWidgetLinha(QWidget):
@@ -33,13 +29,13 @@ class CoordinatesWidgetLinha(QWidget):
         layout.addWidget(self.colorLine)
 
         self.Confirma = QPushButton('Ok')
-        self.Confirma.setStyleSheet('font-size: 12px')
+        self.Confirma.setStyleSheet('font-size: 15px')
         layout.addWidget(self.Confirma)
         self.Confirma.clicked.connect(self.printXeY)
         self.setLayout(layout)
 
         self.limpar = QPushButton('Limpar')
-        self.limpar.setStyleSheet('font-size: 12px')
+        self.limpar.setStyleSheet('font-size: 15px')
         layout.addWidget(self.limpar)
         self.limpar.clicked.connect(self.clearLabels)
         self.setLayout(layout)
@@ -56,13 +52,12 @@ class CoordinatesWidgetLinha(QWidget):
             color = QColor(int(r), int(g), int(b))
         x1 = int(self.coordenadaX1.displayText())
         y1 = int(self.coordenadaY1.displayText())
-        ponto1 = Point(x1, y1)
+        ponto1 = [x1, y1]
         x2 = int(self.coordenadaX2.displayText())
         y2 = int(self.coordenadaY2.displayText())
-        ponto2 = Point(x2, y2)
-
-        line = Object([ponto1, ponto2], "Line", color, False)
-        World.add(line)
+        ponto2 = [x2, y2]
+        line = Object2D([ponto1, ponto2], "Line", color, False)
+        World.addObject(line)
         self.close()
         self.clearLabels()
 

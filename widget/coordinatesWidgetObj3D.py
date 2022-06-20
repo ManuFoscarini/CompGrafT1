@@ -1,29 +1,23 @@
-import sys
-from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget, QPushButton, QLineEdit, QVBoxLayout, QLabel, QCheckBox
 from PyQt5.QtGui import QColor
 from object.world import World
-from object.object import Object2D
+from object.object3D import Object3D
 
 
-class CoordinatesWidgetPoligono(QWidget):
+class CoordinatesWidgetObj3D(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Wireframe")
+        self.setWindowTitle("Object 3D")
         self.setGeometry(300, 300, 200, 100)
         self.layout = QVBoxLayout()
 
-        self.coordenadaXY = QLineEdit()
+        self.coordenadaXYZ = QLineEdit()
         self.colorPoligono = QLineEdit()
 
-        self.layout.addWidget(QLabel('Todas as coordenada X e Y: x1,y1;x2,y2'))
-        self.layout.addWidget(self.coordenadaXY)
-        self.layout.addWidget(QLabel('Cor: r,g,b (0 - 255)'))
+        self.layout.addWidget(QLabel('Todas as coordenada X, Y e Z: x1,y1,z1;x2,y2,z2'))
+        self.layout.addWidget(self.coordenadaXYZ)
+        self.layout.addWidget(QLabel('Color: r,g,b (between 0 and 255)'))
         self.layout.addWidget(self.colorPoligono)
-
-        self.b1 = QCheckBox("WireFrame preenchido")
-        self.b1.setChecked(False)
-        self.layout.addWidget(self.b1)
 
         self.Confirma = QPushButton('Ok')
         self.Confirma.setStyleSheet('font-size: 15px')
@@ -39,25 +33,21 @@ class CoordinatesWidgetPoligono(QWidget):
 
     def printXeY(self):
         newpontos = []
-        coordenadasXY = self.coordenadaXY.displayText().strip().split(';')
-        for stringPonto in coordenadasXY:
+        coordenadasXYZ = self.coordenadaXYZ.displayText().strip().split(';')
+        for stringPonto in coordenadasXYZ:
             if(stringPonto != ''):
-                x, y = stringPonto.split(',')
-                newpontos.append([float(x), float(y)])
+                x, y, z = stringPonto.split(',')
+                newpontos.append([float(x), float(y), float(z)])
         if (self.colorPoligono.displayText() == ""):
             r, g, b = 0, 0, 0
             color = QColor(int(r), int(g), int(b))
         else:
             r, g, b = self.colorPoligono.displayText().strip().split(',')
             color = QColor(int(r), int(g), int(b))
-        if self.b1.isChecked():
-            filled = True
-        else:
-            filled = False
-        World.addObject(Object2D(newpontos, "Wireframe", color, filled))
+        World.addObject(Object3D(newpontos, "Wireframe", color, False))
         self.close()
         self.clearLabels()
 
     def clearLabels(self):
-        self.coordenadaXY.clear()
+        self.coordenadaXYZ.clear()
         self.colorPoligono.clear()

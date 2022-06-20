@@ -1,10 +1,11 @@
-from PyQt5.QtCore import Qt
+import numpy
 from PyQt5.QtGui import QBrush, QPainterPath, QColor
 from object.world import World
+from PyQt5.QtCore import Qt
 from operations import transform
 
 
-class Object2D():
+class Object3D():
     def __init__(self, points, type, color=QColor(0, 0, 0), filled=False):
         self.points = points
         self.color = color
@@ -67,4 +68,3 @@ class Object2D():
         x_points = [point[0] for point in self.points]
         y_points = [point[1] for point in self.points]
         return [numpy.average(x_points), numpy.average(y_points)]
-

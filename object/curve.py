@@ -1,5 +1,4 @@
 import numpy
-from object.point import Point
 
 
 class Curve():
@@ -27,19 +26,10 @@ class Curve():
         x_points = [f(t, 0) for t in numpy.arange(0, 1+step, step)]
         y_points = [f(t, 1) for t in numpy.arange(0, 1+step, step)]
 
-        coordinates = self.makeCoordinates(x_points, y_points)
-        return self.coordinatesToPoint(coordinates)
+        return self.makeCoordinates(x_points, y_points)
 
     def makeCoordinates(self, x_points, y_points):
         coordinates = []
         for i in range(0, len(x_points)):
             coordinates.append([x_points[i], y_points[i]])
         return coordinates
-
-    def coordinatesToPoint(self, points):
-        newPoints = []
-        for point in points:
-            x, y = point
-            newPoints.append(Point(x, y))
-
-        return newPoints
